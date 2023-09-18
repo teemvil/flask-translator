@@ -5,9 +5,6 @@ app = Flask(__name__)
 
 pipe = pipeline("translation", model="Helsinki-NLP/opus-mt-en-fi")
 
-src = "en"
-trg = "fi"
-
 @app.route('/')
 def home():
     return render_template('index.html')
