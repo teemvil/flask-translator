@@ -3,6 +3,7 @@ from transformers import pipeline
 
 app = Flask(__name__)
 
+# initialize the translator pipeline; using pre-trained model
 pipe = pipeline("translation", model="Helsinki-NLP/opus-mt-en-fi")
 
 @app.route('/')
@@ -13,11 +14,13 @@ def home():
 def result():
    if request.method == 'POST':
       result = request.form
-      print(result['text'])
+      # Extract text from the post from UI
       original_text = result['text']
+      # Translate using the pipeline
       translation = pipe(original_text)
-      print(translation[0]["translation_text"])
+      # Extract the text from the translation result
       translation_result = translation[0]["translation_text"]
+      # Create new dict to send to UI
       result_dict={original_text:translation_result}
 
       return render_template("result.html", result = result_dict)
